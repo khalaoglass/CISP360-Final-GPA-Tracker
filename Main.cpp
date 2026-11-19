@@ -1,0 +1,235 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <fstream>
+using namespace std;
+
+
+const int MAX_STUDENT = 50;
+const string FILE_NAME = "students.txt";
+
+
+//all functions
+void loadFromFile(string *names, double *gpas, int &count);//this will change studentCOunt
+void saveToFile(string *names, double *gpas, int count);
+void viewStudents(string *names, double *gpas, int count);
+void addStudent(string *names, double *gpas, int &count);//this will change studentCount
+void sortByGPA(string *names, double *gpas, int count);
+void searchStudent(string *names, double *gpas, int count);
+
+
+void swapStudents(string *names, double *gpas, int count);
+void removeStudent(string *names, double *gpas, int &count);
+
+
+
+
+
+
+//main
+int main(){
+   string names[MAX_STUDENT];
+   double gpas[MAX_STUDENT];
+   int studentCount = 0;
+   int choice = 0;
+  
+   loadFromFile(names, gpas, studentCount);//loadFromFile will change studentCount
+  
+   //main menu
+   do{
+       cout << "\n==============================\n";
+       cout << setw(25) << "Student GPA Tracker" << endl;
+       cout << "\n==============================\n";
+       cout << "1. View Student\n";
+       cout << "2. Add Student\n";
+       cout << "3. Sort Roster by GPA\n";
+       cout << "4. Search Student by Name\n";
+       cout << "5. Swap two Students\n";
+       cout << "6. Remove Student\n";
+       cout << "7. Save and Exist\n";
+       cout << "---------------------------------\n";
+       cout << "Enter your choice (1-7): ";
+       while (!(cin >> choice)) {
+           cin.clear();
+           cin.ignore(1000, '\n');
+           cout << "Invalid input. Enter a number (1-7): ";
+       }
+       cin.ignore(1000, '\n'); // Clears the Enter key before calling any function
+      
+       switch (choice){
+           case 1:
+               viewStudents(names, gpas, studentCount);
+               break;
+           case 2:
+               addStudent(names, gpas, studentCount);
+               break;
+           case 3:
+               sortByGPA(names, gpas, studentCount);
+               break;
+           case 4:
+               searchStudent(names, gpas, studentCount);
+               break;
+
+
+           case 5:
+               swapStudents(names, gpas, studentCount);
+               break;
+           case 6:
+               removeStudent(names, gpas, studentCount);
+               break;
+           case 7:
+               saveToFile(names, gpas, studentCount);
+               cout << "\nData saved. Goodbye!\n";
+               break;
+           default:
+               cout << "\nInvalid choice. Try again.\n";
+       }
+
+
+   }while(choice != 5);
+   return 0;
+}
+
+
+
+
+void loadFromFile(string *names, double *gpas, int &count){
+	Ifstream inFile(FILE_NAME);
+	If (!inFile) {
+		Return;
+}
+
+
+*count = 0;
+While (*count < MAX_STUDENT && getline(inFile, *(names + *count))) {
+	If ((*(names + *count)).empty()) continue;
+	If (inFile >> *(gpas + count)) {
+		inFile.ignore(1000, '\n');
+		(*count)++;
+		}
+}
+inFile.close();
+}
+
+
+void saveToFile(const string *names, const double *gpas, int &count){
+	ofstream outFile(FILE_NAME);
+	if (!outFile) {
+		cout << "Error: Could not open file for saving.\n";
+		Return;
+	}
+
+
+	for (int i = 0; i < count; i++) {
+		outFile << *(names + i) << "\n" << *(gpas + i) << "\n";
+	}
+	outFile.close();
+}
+
+
+void viewStudents(string *names, double *gpas, int count){
+}
+void addStudent(string *names, double *gpas, int &count) {
+
+
+
+
+}
+
+
+void sortByGPA(string *names, double *gpas, int count){
+}
+
+
+void searchStudent(string *names, double *gpas, int count){
+
+
+}
+void swapStudents(string *names, double *gpas, int count){
+if (count < 2) {
+       	cout << "\nNeed at least 2 students to swap.\n";
+       	return;
+   	}
+string name1, name2;
+   	cout << "\nEnter the first student's name: ";
+   	getline(cin, name1);
+   	cout << "Enter the second student's name: ";
+   	getline(cin, name2);
+
+
+   	int index1 = -1;
+   	int index2 = -1;
+
+
+   	for (int i = 0; i < count; i++) {
+       	if (names[i] == name1) {
+           		index1 = i;
+       	}
+       	if (names[i] == name2) {
+           		index2 = i;
+       	}
+   	}
+
+
+   if (index1 == -1 || index2 == -1) {
+       cout << "\nCould not find one or both students.\n";
+       return;
+   }
+
+
+   string tempName = names[index1];
+   names[index1] = names[index2];
+   names[index2] = tempName;
+
+
+   double tempGpa = gpas[index1];
+   gpas[index1] = gpas[index2];
+   gpas[index2] = tempGpa;
+
+
+   cout << "\nStudents swapped successfully!\n";
+
+
+}
+
+
+void removeStudent(string *names, double *gpas, int &count){
+if (count == 0) {
+       cout << "\nNo students to remove.\n";
+       return;
+   }
+
+
+   string target;
+   cout << "\nEnter the name of the student to remove: ";
+   getline(cin, target);
+
+
+   // Find the student's index
+   int index = -1;
+   for (int i = 0; i < count; i++) {
+       if (names[i] == target) {
+           index = i;
+           break;
+       }
+   }
+
+
+   if (index == -1) {
+       cout << "\nStudent not found.\n";
+       return;
+   }
+
+
+   // Shift remaining students left to fill the gap
+   for (int i = index; i < count - 1; i++) {
+       names[i] = names[i + 1];
+       gpas[i] = gpas[i + 1];
+   }
+
+
+   count--;
+   cout << "\n" << target << " has been removed!\n";
+
+
+}
