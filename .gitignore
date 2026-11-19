@@ -1,0 +1,23 @@
+# Compiled binaries
+*.o
+*.obj
+*.exe
+*.out
+a.out
+gpa_tracker
+main
+Main
+
+# Build dirs
+build/
+bin/
+obj/
+
+# Program data file (generated at runtime)
+students.txt
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+*.swp
